@@ -97,10 +97,7 @@ public class AdminEventoMain extends DrawerBaseActivity {
                         //  Exibe a chave também na lista
                         String info ="\nNome: " + evento.getNomeEvento()
                                 + "\nLocal: " + evento.getLocal()
-                                + "\nData: " + evento.getData()
-                                + "\nHorario Inicio: " + evento.getHorarioInicio()
-                                + "\nTermino do evento: " + evento.getHorarioFim()
-                                +"\nDescrição: " + evento.getDescricao();
+                                + "\nData: " + evento.getData();
                         listaEventos.add(info);
                     }
                 }
