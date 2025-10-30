@@ -50,18 +50,21 @@
             android:id="@+id/btnCadastrarUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="salvar"
             android:text="Cadastrar" />
 
         <Button
             android:id="@+id/btnLimparUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="limpar"
             android:text="Limpar" />
 
         <Button
             android:id="@+id/btnVoltarUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="Sair"
             android:text="Voltar" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

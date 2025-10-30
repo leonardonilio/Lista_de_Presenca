@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QRCode">
         <activity
+            android:name=".PresencaDoEvento"
+            android:exported="false" />
+        <activity
             android:name=".CadastrarUsuario"
             android:exported="false" />
         <activity

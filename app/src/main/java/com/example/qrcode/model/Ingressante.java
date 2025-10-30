@@ -1,15 +1,15 @@
 package com.example.qrcode.model;
 
 public class Ingressante {
-    private String keyIngressante,NomeIngressante,EmailIgressante,TelefoneIngressante;
+    private String keyIngressante,NomeIngressante,EmailIngressante,TelefoneIngressante;
 
     public Ingressante() {
     }
 
-    public Ingressante(String keyIngressante, String nomeIngressante, String emailIgressante, String telefoneIngressante) {
+    public Ingressante(String keyIngressante, String nomeIngressante, String emailIngressante, String telefoneIngressante) {
         this.keyIngressante = keyIngressante;
         NomeIngressante = nomeIngressante;
-        EmailIgressante = emailIgressante;
+        EmailIngressante = emailIngressante;
         TelefoneIngressante = telefoneIngressante;
     }
 
@@ -29,12 +29,12 @@ public class Ingressante {
         NomeIngressante = nomeIngressante;
     }
 
-    public String getEmailIgressante() {
-        return EmailIgressante;
+    public String getEmailIngressante() {
+        return EmailIngressante;
     }
 
-    public void setEmailIgressante(String emailIgressante) {
-        EmailIgressante = emailIgressante;
+    public void setEmailIngressante(String emailIngressante) {
+        EmailIngressante = emailIngressante;
     }
 
     public String getTelefoneIngressante() {

@@ -18,6 +18,8 @@ public class EventoMain extends DrawerBaseActivity {
 
     ActivityEventoMainBinding binding;
     SearchView mysearchview;
+    String Id_User;
+    String Nome_User;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +28,16 @@ public class EventoMain extends DrawerBaseActivity {
         binding = ActivityEventoMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-       allocateActivityTitle("Lista de Cadastro");
-        mysearchview = (SearchView) findViewById(R.id.searchview);
+        allocateActivityTitle("Lista de Cadastro");
 
+        // Recebe dados do usuário
+        Intent intent = getIntent();
+        if (intent != null) {
+            Id_User = intent.getStringExtra("Ingressante_key");
+            Nome_User = intent.getStringExtra("NomeIngressante");
+        }
 
+        mysearchview = findViewById(R.id.searchview);
     }
 public void LerQrcode (View view){
     IntentIntegrator integrator = new IntentIntegrator(this);
@@ -48,6 +56,8 @@ public void LerQrcode (View view){
             if (result.getContents() != null) {
                 String valorLido = result.getContents().trim();
                 buscarEventoPorKey(valorLido);
+
+
             } else {
                 Toast.makeText(this, "Leitura cancelada", Toast.LENGTH_SHORT).show();
             }
@@ -64,7 +74,11 @@ public void LerQrcode (View view){
                     evento.setKey(eventoKey);
 
                     Toast.makeText(this, "QR reconhecido! Evento encontrado.", Toast.LENGTH_SHORT).show();
-
+                    Intent intent = new Intent(getApplicationContext(), PresencaDoEvento.class);
+                    intent.putExtra("Ingressante_key", Id_User);// envia a key do Firebase
+                    intent.putExtra("NomeIngressante", Nome_User);
+                    intent.putExtra("Evento_key", eventoKey);
+                    startActivity(intent);
 
                 }
             } else {

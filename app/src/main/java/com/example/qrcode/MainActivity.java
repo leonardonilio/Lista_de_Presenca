@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void entrarEvento(View view) {
-        Intent it = new Intent(getApplicationContext(), EventoMain.class);
+        Intent it = new Intent(getApplicationContext(), CadastrarUsuario.class);
         startActivity(it);
     }
 }
