@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation("com.google.android.material:material:1.12.0")
+    implementation("com.github.DantSu:ESCPOS-ThermalPrinter-Android:3.3.0")
     implementation("com.google.zxing:core:3.4.1")
     implementation("com.github.androidmads:QRGenerator:1.0.5")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
