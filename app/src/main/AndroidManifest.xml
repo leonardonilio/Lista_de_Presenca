@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.USB_PERMISSION" />
+
     <uses-feature android:name="android.hardware.usb.host" />
 
     <application
@@ -19,25 +20,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QRCode">
         <activity
+            android:name=".DetalhesDoEvento"
+            android:exported="false" />
+        <activity
             android:name=".PresencaDoEvento"
             android:exported="false" />
         <activity
             android:name=".CadastrarUsuario"
             android:exported="false" />
         <activity
-            android:name=".GerarQrCode"
+            android:name=".AdminEvento.GerarQrCode"
             android:exported="false" />
         <activity
-            android:name=".ManutencaoEvento"
+            android:name=".AdminEvento.ManutencaoEvento"
             android:exported="false" />
         <activity
-            android:name=".CadastrarEvento"
+            android:name=".AdminEvento.CadastrarEvento"
             android:exported="false" />
         <activity
             android:name=".EventoMain"
             android:exported="false" />
         <activity
-            android:name=".AdminEventoMain"
+            android:name=".AdminEvento.AdminEventoMain"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -48,7 +52,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
     </application>
 
 </manifest>

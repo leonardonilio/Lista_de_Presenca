@@ -12,7 +12,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.qrcode.model.AdminEvento;
+import com.example.qrcode.dao.IngressanteDAO;
 import com.example.qrcode.model.Ingressante;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -60,32 +60,50 @@ public class CadastrarUsuario extends AppCompatActivity {
         ingressante.setEmailIngressante(email);
         ingressante.setTelefoneIngressante(telefone);
 
+        IngressanteDAO dao = new IngressanteDAO();
+        ultimoIngressanteKey = dao.insert(ingressante);
 
-        // Gera uma nova chave única no Firebase
-        String key = ingressanteRef.push().getKey();
-        if (key == null) {
-            Toast.makeText(this, "Erro ao gerar chave do evento", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        ingressante.setKeyIngressante(key); // guarda a key dentro do objeto
-        ultimoIngressanteKey = key;
-
-
-        // Salva no Firebase
-        ingressanteRef.child(key).setValue(ingressante)
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(this, "Usuario salvo com sucesso!", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, "Erro ao salvar ingressante: " + task.getException(), Toast.LENGTH_SHORT).show();
-                    }
-                });
         Intent intent = new Intent(getApplicationContext(), EventoMain.class);
         intent.putExtra("Ingressante_key", ultimoIngressanteKey);// envia a key do Firebase
         intent.putExtra("NomeIngressante", NomeIngressante);
         startActivity(intent);
+        finish();
     }
+    public void entrar(View view) {
+        String nome = edtNomeUser.getText().toString().trim();
+        String email = edtEmail.getText().toString().trim();
+        String telefone = edtTelefone.getText().toString().trim();
+
+        if (nome.isEmpty() || email.isEmpty() || telefone.isEmpty()) {
+            Toast.makeText(this, "Preencha todos os campos!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        IngressanteDAO dao = new IngressanteDAO();
+        dao.login(nome, email, telefone, new IngressanteDAO.LoginCallback() {
+            @Override
+            public void onLoginSuccess(String keyIngressante, String nomeIngressante) {
+                Toast.makeText(CadastrarUsuario.this, "Login bem-sucedido!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), EventoMain.class);
+                intent.putExtra("Ingressante_key", keyIngressante);
+                intent.putExtra("NomeIngressante", nomeIngressante);
+                startActivity(intent);
+                finish();
+
+            }
+
+            @Override
+            public void onLoginFailed() {
+                Toast.makeText(CadastrarUsuario.this, "Usuário não encontrado!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onLoginError(String error) {
+                Toast.makeText(CadastrarUsuario.this, "Erro: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     public void Sair(View view) {
         finish();
     }

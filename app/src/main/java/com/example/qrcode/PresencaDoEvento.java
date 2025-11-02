@@ -1,9 +1,7 @@
 package com.example.qrcode;
 
-
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -21,7 +19,6 @@ import java.util.Locale;
 
 public class PresencaDoEvento extends AppCompatActivity {
 
-
     private String fkEvento, fkIngressante, nomeIngressante;
 
     @Override
@@ -36,9 +33,6 @@ public class PresencaDoEvento extends AppCompatActivity {
             return insets;
         });
 
-
-
-        // Recebe os dados
         fkEvento = getIntent().getStringExtra("Evento_key");
         fkIngressante = getIntent().getStringExtra("Ingressante_key");
         nomeIngressante = getIntent().getStringExtra("NomeIngressante");
@@ -50,7 +44,8 @@ public class PresencaDoEvento extends AppCompatActivity {
     }
 
     public void Salvar(View view) {
-        String horarioEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault()).format(new Date());
+        String horarioEntrada = new SimpleDateFormat("HH:mm", Locale.getDefault())
+                .format(new Date());
 
         Presenca presenca = new Presenca();
         presenca.setFk_KeyIngressante(fkIngressante);
@@ -59,10 +54,19 @@ public class PresencaDoEvento extends AppCompatActivity {
         presenca.setHorarioSaida(null);
 
         PresencaDAO dao = new PresencaDAO();
-        dao.registrarPresenca(fkEvento, presenca);
-
-        Toast.makeText(this, "Presença registrada!", Toast.LENGTH_LONG).show();
-        finish();
+        dao.registrarPresenca(
+                fkEvento,
+                presenca,
+                // Já registrado
+                () -> runOnUiThread(() -> Toast.makeText(this, " Presença já registrada!", Toast.LENGTH_LONG).show()),
+                // Sucesso
+                () -> runOnUiThread(() -> {
+                    Toast.makeText(this, " Presença registrada no evento!", Toast.LENGTH_LONG).show();
+                    finish();
+                }),
+                // Erro
+                () -> runOnUiThread(() -> Toast.makeText(this, " Erro ao registrar presença.", Toast.LENGTH_LONG).show())
+        );
     }
 
     public void sair(View view) {

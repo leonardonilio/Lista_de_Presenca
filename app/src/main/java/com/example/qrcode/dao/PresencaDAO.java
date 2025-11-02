@@ -11,66 +11,67 @@ import com.google.firebase.database.ValueEventListener;
 
 public class PresencaDAO {
 
-    private final DatabaseReference presencasRef;
     private final DatabaseReference eventosRef;
 
     public PresencaDAO() {
         FirebaseDatabase db = FirebaseDatabase.getInstance();
-        presencasRef = db.getReference("presencas");
         eventosRef = db.getReference("eventos");
     }
 
+    /**
+     * Registra a presença dentro do nó do evento, sem duplicar.
+     */
+    public void registrarPresenca(String fkEvento, Presenca presenca, Runnable onJaRegistrado, Runnable onRegistradoComSucesso, Runnable onErro) {
+        DatabaseReference presencaRef = eventosRef
+                .child(fkEvento)
+                .child("Presenca")
+                .child(presenca.getFk_KeyIngressante());
 
-     // Registra uma nova presença de um ingressante em um evento.
-
-    public void registrarPresenca(String fkEvento, Presenca presenca) {
-        // 1️⃣ Busca o horário de fim do evento no nó "eventos"
-        eventosRef.child(fkEvento).addListenerForSingleValueEvent(new ValueEventListener() {
+        //  Verifica se o usuário já está registrado no evento
+        presencaRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                String horarioFim = null;
-                if (snapshot.exists() && snapshot.child("horarioFim").getValue() != null) {
-                    horarioFim = snapshot.child("horarioFim").getValue(String.class);
-                }
-                presenca.setHorarioSaida(horarioFim);
+            public void onDataChange(@NonNull DataSnapshot snapshotExistente) {
+                if (snapshotExistente.exists()) {
+                    // Já existe presença registrada para esse ingressante
+                    if (onJaRegistrado != null) onJaRegistrado.run();
+                } else {
+                    //  Busca o horário de fim do evento e salva
+                    eventosRef.child(fkEvento).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshotEvento) {
+                            String horarioFim = null;
+                            if (snapshotEvento.exists() && snapshotEvento.child("horarioFim").getValue() != null) {
+                                horarioFim = snapshotEvento.child("horarioFim").getValue(String.class);
+                            }
+                            presenca.setHorarioSaida(horarioFim);
 
-                // 2️⃣ Cria ou obtém o nó da presença com fk_evento
-                DatabaseReference novaPresencaRef = presencasRef.push();
-                String presencaKey = novaPresencaRef.getKey();
+                            presencaRef.setValue(presenca)
+                                    .addOnSuccessListener(unused -> {
+                                        if (onRegistradoComSucesso != null) onRegistradoComSucesso.run();
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        System.err.println(" Erro ao registrar presença: " + e.getMessage());
+                                        if (onErro != null) onErro.run();
+                                    });
+                        }
 
-                if (presencaKey != null) {
-                    novaPresencaRef.child("fk_evento").setValue(fkEvento);
-                    novaPresencaRef.child("Presentes")
-                            .child(presenca.getFk_KeyIngressante())
-                            .setValue(presenca);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            if (onErro != null) onErro.run();
+                        }
+                    });
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                System.err.println("Erro ao buscar evento: " + error.getMessage());
+                if (onErro != null) onErro.run();
             }
         });
     }
 
     /**
-     * Lê todas as presenças cadastradas.
-     */
-    public void listarPresencas(ValueEventListener listener) {
-        presencasRef.addListenerForSingleValueEvent(listener);
-    }
-
-    /**
-     * Lê presenças de um evento específico.
-     */
-    public void listarPorEvento(String fkEvento, ValueEventListener listener) {
-        presencasRef.orderByChild("fk_evento").equalTo(fkEvento)
-                .addListenerForSingleValueEvent(listener);
-    }
-
-    /**
-     * Atualiza o horário de saída de todos os ingressantes de um evento,
-     * caso o evento mude o horário final.
+     * Atualiza automaticamente o horário de saída de todos os ingressantes de um evento.
      */
     public void atualizarHorarioSaidaAutomatico(String fkEvento) {
         eventosRef.child(fkEvento).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -79,26 +80,41 @@ public class PresencaDAO {
                 if (snapshotEvento.exists() && snapshotEvento.child("horarioFim").getValue() != null) {
                     String horarioFim = snapshotEvento.child("horarioFim").getValue(String.class);
 
-                    presencasRef.orderByChild("fk_evento").equalTo(fkEvento)
-                            .addListenerForSingleValueEvent(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshotPresencas) {
-                                    for (DataSnapshot presencaSnapshot : snapshotPresencas.getChildren()) {
-                                        DataSnapshot presentesSnapshot = presencaSnapshot.child("Presentes");
-                                        for (DataSnapshot ingressoSnapshot : presentesSnapshot.getChildren()) {
-                                            ingressoSnapshot.getRef().child("horarioSaida").setValue(horarioFim);
-                                        }
-                                    }
-                                }
+                    DatabaseReference presencasRef = eventosRef.child(fkEvento).child("Presenca");
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {}
-                            });
+                    presencasRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshotPresencas) {
+                            for (DataSnapshot presencaSnapshot : snapshotPresencas.getChildren()) {
+                                presencaSnapshot.getRef().child("horarioSaida").setValue(horarioFim);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) { }
+                    });
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
+            public void onCancelled(@NonNull DatabaseError error) { }
         });
+    }
+    public void deletePresenca(String fkEvento, String fkKeyIngressante,
+                               Runnable onSuccess, Runnable onFailure) {
+
+        DatabaseReference presencaRef = eventosRef
+                .child(fkEvento)
+                .child("Presenca")
+                .child(fkKeyIngressante);
+
+        presencaRef.removeValue()
+                .addOnSuccessListener(unused -> {
+                    if (onSuccess != null) onSuccess.run();
+                })
+                .addOnFailureListener(e -> {
+                    System.err.println("Erro ao deletar presença: " + e.getMessage());
+                    if (onFailure != null) onFailure.run();
+                });
     }
 }

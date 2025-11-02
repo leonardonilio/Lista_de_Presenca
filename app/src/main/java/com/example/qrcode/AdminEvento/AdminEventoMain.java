@@ -1,4 +1,4 @@
-package com.example.qrcode;
+package com.example.qrcode.AdminEvento;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,12 +9,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.example.qrcode.DrawerBaseActivity;
+import com.example.qrcode.R;
+import com.example.qrcode.dao.AdminEventoDAO;
 import com.example.qrcode.databinding.ActivityAdminEventoMainBinding;
 import com.example.qrcode.model.AdminEvento;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -27,8 +28,7 @@ public class AdminEventoMain extends DrawerBaseActivity {
     private ArrayAdapter<String> adapter;
     private List<String> listaEventos;
     private List<AdminEvento> eventos;
-
-    private DatabaseReference referencia;
+    private AdminEventoDAO eventoDAO;
     private ActivityAdminEventoMainBinding binding;
 
     @Override
@@ -39,10 +39,8 @@ public class AdminEventoMain extends DrawerBaseActivity {
 
         allocateActivityTitle("Lista de Cadastro");
 
-        //  Referência correta do nó no Firebase
-        referencia = FirebaseDatabase.getInstance().getReference("eventos");
+        eventoDAO = new AdminEventoDAO();
 
-        // Inicializa componentes
         mysearchview = findViewById(R.id.searchview);
         lv_dados = findViewById(R.id.lv_dados);
 
@@ -54,7 +52,6 @@ public class AdminEventoMain extends DrawerBaseActivity {
 
         carregarDadosEvento();
 
-        // Clique no item → abre tela de manutenção
         lv_dados.setOnItemClickListener((parent, view, position, id) -> {
             if (position >= 0 && position < eventos.size()) {
                 AdminEvento eventoSelecionado = eventos.get(position);
@@ -62,7 +59,6 @@ public class AdminEventoMain extends DrawerBaseActivity {
             }
         });
 
-        // Filtro de busca
         mysearchview.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -79,29 +75,20 @@ public class AdminEventoMain extends DrawerBaseActivity {
     }
 
     private void carregarDadosEvento() {
-        referencia.addValueEventListener(new ValueEventListener() {
+        eventoDAO.obterTodos(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 listaEventos.clear();
-                eventos.clear();
+                eventos = AdminEventoDAO.snapshotToList(snapshot);
 
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    AdminEvento evento = ds.getValue(AdminEvento.class);
-                    if (evento != null) {
-                        // Guarda a chave do Firebase
-                        evento.setKey(ds.getKey());
-
-                        eventos.add(evento);
-
-                        //  Exibe a chave também na lista
-                        String info ="\nNome: " + evento.getNomeEvento()
-                                + "\nLocal: " + evento.getLocal()
-                                + "\nData: " + evento.getData()
-                                + "\nHorario Inicio: " + evento.getHorarioInicio()
-                                + "\nTermino do evento: " + evento.getHorarioFim()
-                                +"\nDescrição: " + evento.getDescricao();
-                        listaEventos.add(info);
-                    }
+                for (AdminEvento evento : eventos) {
+                    String info = "\nNome: " + evento.getNomeEvento()
+                            + "\nLocal: " + evento.getLocal()
+                            + "\nData: " + evento.getData()
+                            + "\nInício: " + evento.getHorarioInicio()
+                            + "\nTérmino: " + evento.getHorarioFim()
+                            + "\nDescrição: " + evento.getDescricao();
+                    listaEventos.add(info);
                 }
 
                 adapter.notifyDataSetChanged();
@@ -117,8 +104,6 @@ public class AdminEventoMain extends DrawerBaseActivity {
 
     private void abrirManutencao(AdminEvento adminEvento) {
         Intent it = new Intent(getApplicationContext(), ManutencaoEvento.class);
-
-        // Envia os dados do evento
         it.putExtra("adminEvento_key", adminEvento.getKey());
         it.putExtra("adminEvento_Nome", adminEvento.getNomeEvento());
         it.putExtra("adminEvento_Local", adminEvento.getLocal());
@@ -127,7 +112,6 @@ public class AdminEventoMain extends DrawerBaseActivity {
         it.putExtra("adminEvento_HorarioInicio", adminEvento.getHorarioInicio());
         it.putExtra("adminEvento_HorarioFim", adminEvento.getHorarioFim());
         it.putExtra("adminEvento_Descricao", adminEvento.getDescricao());
-
         startActivity(it);
     }
 }

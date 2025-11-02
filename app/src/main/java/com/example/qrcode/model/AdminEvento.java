@@ -1,16 +1,19 @@
 package com.example.qrcode.model;
 
+import java.util.Map;
+import java.util.HashMap;
+
 public class AdminEvento {
     //private long ID;
     private String key;
     private String nomeEvento, local, data, descricao, organizador ,horarioInicio, horarioFim;
-
+    private Map<String, Presenca> presenca;
 
     public AdminEvento(){
-
+        this.presenca = new HashMap<>(); // evita nullPointer
     }
 
-    public AdminEvento(String nomeEvento, String local, String data, String descricao, String organizador, String horarioInicio, String horarioFim , String key){
+    public AdminEvento(String nomeEvento, String local, String data, String descricao, String organizador, String horarioInicio, String horarioFim , String key,String presenca){
         //this.ID = ID;
         this.key = key;
         this.nomeEvento = nomeEvento;
@@ -20,15 +23,8 @@ public class AdminEvento {
         this.organizador = organizador;
         this.horarioInicio = horarioInicio;
         this.horarioFim = horarioFim;
+        this.presenca = new HashMap<>();
     }
-
-    /*public long getID() {
-        return ID;
-    }
-
-    public void setID(long ID) {
-        this.ID = ID;
-    }*/
 
     public String getKey() {
         return key;
@@ -92,6 +88,12 @@ public class AdminEvento {
 
     public void setHorarioFim(String horarioFim) {
         this.horarioFim = horarioFim;
+    }
+    public Map<String, Presenca> getPresenca() { return presenca; }
+    public void setPresenca(Map<String, Presenca> presenca) { this.presenca = presenca; }
+
+    public void adicionarPresenca(String keyIngressante, Presenca presenca) {
+        this.presenca.put(keyIngressante, presenca);
     }
 }
 

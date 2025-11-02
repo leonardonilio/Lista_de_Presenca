@@ -27,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:hint="Nome do Usuário"
+            android:hint="Nome"
             android:inputType="text" />
 
         <EditText
@@ -54,6 +54,13 @@
             android:text="Cadastrar" />
 
         <Button
+            android:id="@+id/btnEntrarUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="entrar"
+            android:text="Entrar" />
+
+        <Button
             android:id="@+id/btnLimparUsuario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,5 +73,6 @@
             android:layout_height="wrap_content"
             android:onClick="Sair"
             android:text="Voltar" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

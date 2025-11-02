@@ -1,4 +1,4 @@
-package com.example.qrcode;
+package com.example.qrcode.AdminEvento;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.qrcode.DrawerBaseActivity;
+import com.example.qrcode.R;
 import com.example.qrcode.dao.AdminEventoDAO;
 import com.example.qrcode.databinding.ActivityManutencaoEventoBinding;
 import com.example.qrcode.model.AdminEvento;

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
-    tools:context=".GerarQrCode">
+    tools:context=".AdminEvento.GerarQrCode">
 
     <!-- Título -->
     <TextView
@@ -38,29 +38,7 @@
         android:padding="8dp" />
 
     <!-- Botão de imprimir via Bluetooth -->
-    <Button
-        android:id="@+id/btnImprimir"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:text=" Imprimir via Bluetooth"
-        android:textAllCaps="false"
-        android:layout_marginTop="32dp"
-        android:onClick="imprimirBluetooth"
-        app:layout_constraintTop_toBottomOf="@id/qrImage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
 
     <!-- Botão de imprimir via USB -->
-    <Button
-        android:id="@+id/btnImprimirUSB"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:onClick="detectarImpressoraUSB"
-        android:text=" Imprimir via USB"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/btnImprimir" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

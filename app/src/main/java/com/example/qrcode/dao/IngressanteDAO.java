@@ -1,10 +1,13 @@
 package com.example.qrcode.dao;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
 import com.example.qrcode.model.AdminEvento;
 import com.example.qrcode.model.Ingressante;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -22,14 +25,15 @@ public class IngressanteDAO {
     // ------------------------------
     // CREATE - Inserir novo evento
     // ------------------------------
-    public void insert(Ingressante ingressante) {
-        // Cria um ID único automático
+    public String insert(Ingressante ingressante) {
         String keyIngressante = ingressanteRef.push().getKey();
         if (keyIngressante != null) {
-            //evento.setID(key.hashCode()); // opcional: gerar ID numérico
-            ingressanteRef.child(keyIngressante).setValue(ingressante);
+            ingressante.setKeyIngressante(keyIngressante); // define a key ANTES
+            ingressanteRef.child(keyIngressante).setValue(ingressante); // e agora salva já com ela
         }
+        return keyIngressante;
     }
+
 
     // ------------------------------
     // READ - Obter todos os eventos
@@ -58,6 +62,44 @@ public class IngressanteDAO {
     // ------------------------------
     public void delete(String keyIngressante) {
         ingressanteRef.child(keyIngressante).removeValue();
+    }
+    public void login(String nome, String email, String telefone, LoginCallback callback) {
+        ingressanteRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Ingressante i = ds.getValue(Ingressante.class);
+
+                    if (i != null &&
+                            i.getNomeIngressante().equalsIgnoreCase(nome.trim()) &&
+                            i.getEmailIngressante().equalsIgnoreCase(email.trim()) &&
+                            i.getTelefoneIngressante().equals(telefone.trim())) {
+
+                        // Se o campo key não existir no Firebase, usamos a key real do nó:
+                        String keyReal = i.getKeyIngressante() != null
+                                ? i.getKeyIngressante()
+                                : ds.getKey();
+
+                        callback.onLoginSuccess(keyReal, i.getNomeIngressante());
+                        return;
+                    }
+                }
+                callback.onLoginFailed();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                callback.onLoginError(error.getMessage());
+            }
+        });
+    }
+
+
+    // Interface para retornar o resultado do login
+    public interface LoginCallback {
+        void onLoginSuccess(String keyIngressante, String nomeIngressante);
+        void onLoginFailed();
+        void onLoginError(String error);
     }
 
     // ------------------------------

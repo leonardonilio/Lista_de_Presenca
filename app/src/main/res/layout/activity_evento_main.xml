@@ -20,18 +20,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Eventos"
+            android:text="Eventos Do Usuário"
             android:textSize="34sp" />
 
         <SearchView
-            android:id="@+id/searchview"
+            android:id="@+id/searchviewEvento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:iconifiedByDefault="false"
             android:queryHint="Pesquise aqui" />
 
         <ListView
-            android:id="@+id/lv_dados"
+            android:id="@+id/lv_dadosEventos"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
