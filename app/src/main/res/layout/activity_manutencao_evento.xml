@@ -107,5 +107,12 @@
             android:onClick="limpar"
             android:text="Limpar" />
 
+        <Button
+            android:id="@+id/button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="Sair"
+            android:text="Sair" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

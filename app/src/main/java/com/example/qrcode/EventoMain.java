@@ -119,7 +119,7 @@ public class EventoMain extends DrawerBaseActivity {
         });
     }
     private void abrirManutencao(AdminEvento adminEvento) {
-        Intent it = new Intent(getApplicationContext(), ManutencaoEvento.class);
+        Intent it = new Intent(getApplicationContext(), DetalhesDoEvento.class);
         it.putExtra("adminEvento_key", adminEvento.getKey());
         it.putExtra("adminEvento_Nome", adminEvento.getNomeEvento());
         it.putExtra("adminEvento_Local", adminEvento.getLocal());

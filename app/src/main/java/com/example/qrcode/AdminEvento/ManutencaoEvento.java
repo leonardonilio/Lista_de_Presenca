@@ -53,7 +53,6 @@ public class ManutencaoEvento extends DrawerBaseActivity {
         // Pega os dados vindos da Intent
         eventoId = getIntent().getStringExtra("adminEvento_key"); // agora usamos o ID do Firebase
 
-        //edtIdEvento.setText(eventoId); // mostra no campo (opcional)
         edtNomeEventoManutencao.setText(getIntent().getStringExtra("adminEvento_Nome"));
         edtLocalManutencao.setText(getIntent().getStringExtra("adminEvento_Local"));
         edtDataManutencao.setText(getIntent().getStringExtra("adminEvento_Data"));
@@ -122,5 +121,8 @@ public class ManutencaoEvento extends DrawerBaseActivity {
         Intent intent = new Intent(this, GerarQrCode.class);
         intent.putExtra("Evento_key", eventoId); // usamos o ID do Firebase
         startActivity(intent);
+    }
+    public void Sair(View View){
+        finish();
     }
 }

@@ -10,6 +10,7 @@
     tools:context=".AdminEvento.GerarQrCode">
 
     <!-- Título -->
+
     <TextView
         android:id="@+id/edtTextoID"
         android:layout_width="0dp"

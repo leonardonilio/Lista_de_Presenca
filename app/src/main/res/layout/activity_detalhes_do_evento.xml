@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".DetalhesDoEvento">
 
     <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+        >
 
         <TextView
             android:id="@+id/textView7"
@@ -20,88 +19,100 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Detalhes do Evento"
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:layout_marginBottom="16dp"/>
 
         <EditText
-            android:id="@+id/editTextText"
+            android:id="@+id/edtNomeVisto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
             android:focusable="false"
             android:clickable="false"
             android:text="Name" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/edtLocaVisto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
+            android:focusable="false"
+            android:clickable="false"
             android:text="Name" />
 
         <EditText
-            android:id="@+id/editTextText3"
+            android:id="@+id/edtDataVisto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
+            android:focusable="false"
+            android:clickable="false"
             android:text="Name" />
 
         <EditText
-            android:id="@+id/editTextText4"
+            android:id="@+id/edtOrganizadorVisto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
+            android:focusable="false"
+            android:clickable="false"
             android:text="Name" />
 
         <EditText
-            android:id="@+id/editTextText5"
+            android:id="@+id/edtHorarioiniVisto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
+            android:focusable="false"
+            android:clickable="false"
             android:text="Name" />
 
         <EditText
-            android:id="@+id/editTextText6"
+            android:id="@+id/edtHorarioVisto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
+            android:focusable="false"
+            android:clickable="false"
             android:text="Name" />
 
         <EditText
-            android:id="@+id/editTextTextMultiLine"
+            android:id="@+id/edtDescricaoVisto"
             android:layout_width="match_parent"
             android:layout_height="165dp"
-            android:ems="10"
+            android:focusable="false"
+            android:clickable="false"
             android:gravity="start|top"
             android:inputType="textMultiLine" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="97dp"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
 
             <Button
-                android:id="@+id/button2"
-                android:layout_width="53dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
-                android:text="Sair do Evento"
-                app:cornerRadius="5px" />
+                android:id="@+id/VerQrCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ver QR Code"
+                android:layout_margin="10dp" />
 
             <Button
-                android:id="@+id/button3"
-                android:layout_width="57dp"
-                android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                android:layout_weight="1"
+                android:id="@+id/Voltar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="Sair"
                 android:text="Voltar"
-                app:cornerRadius="5px" />
+                android:layout_margin="10dp" />
         </LinearLayout>
 
+        <ImageView
+            android:id="@+id/qrImage3"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            android:background="@android:color/white"
+            android:contentDescription="QR Code gerado"
+            android:padding="8dp"
+            android:visibility="gone" />
+
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

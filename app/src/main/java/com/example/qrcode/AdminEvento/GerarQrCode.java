@@ -27,12 +27,7 @@ public class GerarQrCode extends AppCompatActivity {
     private TextView txtInfo;
 
     private Bitmap qrBitmap;
-    private static final UUID PRINTER_UUID = UUID.fromString("00001101-0000-1000-8000-00805f9b34fb");
-    private static final String ACTION_USB_PERMISSION = "com.example.qrcode.USB_PERMISSION";
 
-    private UsbManager usbManager;
-    private UsbDevice usbDevice;
-    private UsbDeviceConnection connection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +39,6 @@ public class GerarQrCode extends AppCompatActivity {
         txtInfo = findViewById(R.id.edtTextoID);
 
 
-        usbManager = (UsbManager) getSystemService(Context.USB_SERVICE);
 
         // Recebe o ID do evento
         String eventoId = getIntent().getStringExtra("Evento_key");
