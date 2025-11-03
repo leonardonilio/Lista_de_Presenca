@@ -27,5 +27,25 @@
             android:layout_width="match_parent"
             android:layout_height="250dp"
             app:srcCompat="@drawable/ic_launcher_foreground" />
+
+        <Button
+            android:id="@+id/btnQRCode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+        <EditText
+            android:id="@+id/edtImpressoraID"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="ID Impressora"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/btnImprimir"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Imprimir" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
