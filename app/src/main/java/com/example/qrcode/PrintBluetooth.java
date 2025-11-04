@@ -5,6 +5,8 @@ import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.os.Handler;
 import android.widget.Toast;
 
@@ -79,15 +81,40 @@ public class PrintBluetooth extends AppCompatActivity {
 
     public void printQrCode(Bitmap qRBit) {
         try {
-            PrintPic printPic1 = PrintPic.getInstance();
-            printPic1.init(qRBit);
+            // Adiciona margem inferior para evitar corte
+            int extraBottom = 30;
+
+            Bitmap expanded = Bitmap.createBitmap(
+                    qRBit.getWidth(),
+                    qRBit.getHeight() + extraBottom,
+                    Bitmap.Config.RGB_565
+            );
+
+            Canvas canvas = new Canvas(expanded);
+            canvas.drawColor(Color.WHITE);
+            canvas.drawBitmap(qRBit, 0, 0, null);
+
+            // ⚠ RECRIAR PrintPic a cada impressão (sem singleton)
+            PrintPic printPic1 = new PrintPic();
+            printPic1.init(expanded);
             byte[] bitmapdata2 = printPic1.printDraw();
+
+            // Envia o bitmap completo
             mmOutputStream.write(bitmapdata2);
-        }
-        catch(Exception e){
+            mmOutputStream.flush();
+
+            // Espera a impressora processar o buffer
+            Thread.sleep(300);
+
+            // Avança papel (5 linhas)
+            mmOutputStream.write(new byte[]{0x0A, 0x0A, 0x0A, 0x0A, 0x0A});
+            mmOutputStream.flush();
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     /*
      * after opening a connection to bluetooth printer device,

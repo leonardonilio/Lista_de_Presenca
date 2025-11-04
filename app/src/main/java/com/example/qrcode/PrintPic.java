@@ -15,7 +15,8 @@ public class PrintPic {
 
     public byte[] bitbuf = null;
 
-    private PrintPic() {
+    public PrintPic() {
+
     }
 
     private static PrintPic instance = new PrintPic();
