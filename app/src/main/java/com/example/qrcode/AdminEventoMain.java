@@ -35,7 +35,7 @@ public class AdminEventoMain extends DrawerBaseActivity {
         binding = ActivityAdminEventoMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        allocateActivityTitle("Lista de Cadastro");
+        allocateActivityTitle("Lista de Eventos");
 
         eventoDAO = new AdminEventoDAO();
 

@@ -36,16 +36,24 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
         toggle.syncState();
     }
 
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START);
-        if (item.getItemId() == R.id.nav_cadastrar){
+
+        int id = item.getItemId();
+
+        if (id == R.id.nav_cadastrar) {
             startActivity(new Intent(this, CadastrarEvento.class));
-        } else if (item.getItemId() == R.id.nav_sair){
+        } else if (id == R.id.nav_sair) {
             finish();
+        } else if (id == R.id.nav_eventos_encerrados) {
+            startActivity(new Intent(this, EventosFechados.class));
         }
-        return false;
+
+        return true;
     }
+
 
     protected void allocateActivityTitle(String titleString){
         if (getSupportActionBar() != null){

@@ -7,112 +7,119 @@
     android:layout_height="match_parent"
     tools:context=".ManutencaoEvento">
 
-    <LinearLayout
-        android:layout_width="409dp"
-        android:layout_height="729dp"
-        android:orientation="vertical"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="1dp">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/textView4"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Manutenção"
-            android:textSize="34sp" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
-        <EditText
-            android:id="@+id/edtNomeEventoManutencao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Nome"
-            android:inputType="text" />
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Manutenção"
+                android:textSize="34sp" />
 
-        <EditText
-            android:id="@+id/edtLocalManutencao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Local"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/edtNomeEventoManutencao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nome"
+                android:inputType="text" />
 
-        <EditText
-            android:id="@+id/edtDataManutencao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Data"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/edtLocalManutencao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Local"
+                android:inputType="text" />
 
-        <EditText
-            android:id="@+id/edtOrganizadorManutencao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Organizador"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/edtDataManutencao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Data"
+                android:inputType="text" />
 
-        <EditText
-            android:id="@+id/edtHorarioInicioManutencao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Horario Inicio"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/edtOrganizadorManutencao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Organizador"
+                android:inputType="text" />
 
-        <EditText
-            android:id="@+id/edtHorarioFimManutencao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="HorarioFIm"
-            android:inputType="text" />
+            <EditText
+                android:id="@+id/edtHorarioInicioManutencao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Horário Início"
+                android:inputType="text" />
 
-        <EditText
-            android:id="@+id/edtDescricaoManutencao"
-            android:layout_width="match_parent"
-            android:layout_height="157dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="Descrição"
-            android:inputType="textMultiLine" />
+            <EditText
+                android:id="@+id/edtHorarioFimManutencao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Horário Fim"
+                android:inputType="text" />
 
-        <Button
-            android:id="@+id/btnAlterarEvento"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="alterar"
-            android:text="Alterar" />
+            <EditText
+                android:id="@+id/edtDescricaoManutencao"
+                android:layout_width="match_parent"
+                android:layout_height="157dp"
+                android:gravity="start|top"
+                android:hint="Descrição"
+                android:inputType="textMultiLine" />
 
-        <Button
-            android:id="@+id/btnCadastrarEvento2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="gerarQRCode"
-            android:text="Gerar QR code" />
+            <Button
+                android:id="@+id/btnAlterarEvento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="alterar"
+                android:text="Alterar" />
 
-        <Button
-            android:id="@+id/btnExcluirManutencao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="excluir"
-            android:text="Excluir" />
+            <Button
+                android:id="@+id/btnCadastrarEvento2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="gerarQRCode"
+                android:text="Gerar QR code" />
 
-        <Button
-            android:id="@+id/btnLimparManutencao"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="limpar"
-            android:text="Limpar" />
+            <Button
+                android:id="@+id/btnExcluirManutencao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="excluir"
+                android:text="Excluir" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:onClick="Sair"
-            android:text="Sair" />
+            <Button
+                android:id="@+id/IrLista"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="VerPresenca"
+                android:text="Ver Lista de Presenças" />
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/btnFecharEvento"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="fecharEvento"
+                android:text="Fechar Evento" />
+
+
+            <Button
+                android:id="@+id/button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="Sair"
+                android:text="Sair" />
+
+        </LinearLayout>
+    </ScrollView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

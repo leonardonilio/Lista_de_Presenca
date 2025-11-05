@@ -73,32 +73,49 @@ public class PresencaDAO {
     /**
      * Atualiza automaticamente o horário de saída de todos os ingressantes de um evento.
      */
-    public void atualizarHorarioSaidaAutomatico(String fkEvento) {
-        eventosRef.child(fkEvento).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void atualizarHorarioSaidaAutomatico(String fkEvento, String horarioAntigo, String horarioNovo) {
+        DatabaseReference eventoRef = eventosRef.child(fkEvento);
+
+        DatabaseReference presencasRef = eventoRef.child("Presenca");
+
+        presencasRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshotEvento) {
-                if (snapshotEvento.exists() && snapshotEvento.child("horarioFim").getValue() != null) {
-                    String horarioFim = snapshotEvento.child("horarioFim").getValue(String.class);
+            public void onDataChange(@NonNull DataSnapshot snapshotPresencas) {
+                for (DataSnapshot presencaSnapshot : snapshotPresencas.getChildren()) {
+                    String horarioSaidaAtual = presencaSnapshot.child("horarioSaida").getValue(String.class);
 
-                    DatabaseReference presencasRef = eventosRef.child(fkEvento).child("Presenca");
-
-                    presencasRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshotPresencas) {
-                            for (DataSnapshot presencaSnapshot : snapshotPresencas.getChildren()) {
-                                presencaSnapshot.getRef().child("horarioSaida").setValue(horarioFim);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) { }
-                    });
+                    // Atualiza apenas se o horário de saída atual for igual ao horário antigo do evento
+                    if (horarioSaidaAtual != null && horarioSaidaAtual.equals(horarioAntigo)) {
+                        presencaSnapshot.getRef().child("horarioSaida").setValue(horarioNovo);
+                    }
                 }
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) { }
+            public void onCancelled(@NonNull DatabaseError error) {
+                System.err.println("Erro ao atualizar horários de saída: " + error.getMessage());
+            }
         });
+    }
+
+    public void atualizarHorarioSaidaIndividual(String fkEvento, String fkKeyIngressante,
+                                                String novoHorarioSaida,
+                                                Runnable onSuccess, Runnable onFailure) {
+
+        DatabaseReference presencaRef = eventosRef
+                .child(fkEvento)
+                .child("Presenca")
+                .child(fkKeyIngressante)
+                .child("horarioSaida");
+
+        presencaRef.setValue(novoHorarioSaida)
+                .addOnSuccessListener(unused -> {
+                    if (onSuccess != null) onSuccess.run();
+                })
+                .addOnFailureListener(e -> {
+                    System.err.println("Erro ao atualizar horário de saída: " + e.getMessage());
+                    if (onFailure != null) onFailure.run();
+                });
     }
     public void deletePresenca(String fkEvento, String fkKeyIngressante,
                                Runnable onSuccess, Runnable onFailure) {
