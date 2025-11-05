@@ -21,6 +21,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.QRCode">
         <activity
+            android:name=".Participaram"
+            android:exported="false" />
+        <activity
             android:name=".EventosFechados"
             android:exported="false" />
         <activity

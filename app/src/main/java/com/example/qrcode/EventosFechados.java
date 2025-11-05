@@ -68,7 +68,7 @@ public class EventosFechados extends DrawerBaseActivity {
 
         // Clique em um evento para ver presenças
         listViewEventos.setOnItemClickListener((parent, view, position, id) -> {
-            Intent intent = new Intent(EventosFechados.this, ListaDePresenca.class);
+            Intent intent = new Intent(EventosFechados.this, Participaram.class);
             intent.putExtra("Evento_key", keysList.get(position));
             startActivity(intent);
         });
