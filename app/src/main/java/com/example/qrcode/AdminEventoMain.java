@@ -1,4 +1,4 @@
-package com.example.qrcode.AdminEvento;
+package com.example.qrcode;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.qrcode.DrawerBaseActivity;
-import com.example.qrcode.R;
 import com.example.qrcode.dao.AdminEventoDAO;
 import com.example.qrcode.databinding.ActivityAdminEventoMainBinding;
 import com.example.qrcode.model.AdminEvento;

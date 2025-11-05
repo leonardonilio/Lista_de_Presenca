@@ -10,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.example.qrcode.AdminEvento.ManutencaoEvento;
 import com.example.qrcode.databinding.ActivityEventoMainBinding;
 import com.example.qrcode.model.AdminEvento;
 import com.google.firebase.database.DataSnapshot;

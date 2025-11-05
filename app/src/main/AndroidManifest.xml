@@ -29,19 +29,19 @@
             android:name=".CadastrarUsuario"
             android:exported="false" />
         <activity
-            android:name=".AdminEvento.GerarQrCode"
+            android:name=".GerarQrCode"
             android:exported="false" />
         <activity
-            android:name=".AdminEvento.ManutencaoEvento"
+            android:name=".ManutencaoEvento"
             android:exported="false" />
         <activity
-            android:name=".AdminEvento.CadastrarEvento"
+            android:name=".CadastrarEvento"
             android:exported="false" />
         <activity
             android:name=".EventoMain"
             android:exported="false" />
         <activity
-            android:name=".AdminEvento.AdminEventoMain"
+            android:name=".AdminEventoMain"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
